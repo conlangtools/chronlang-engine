@@ -1,6 +1,11 @@
 [package]
 name = "chronlang-engine"
 version = "0.1.1"
+description = "Language backend for Chronlang, a computer language for crafting constructed languages."
+license = "MIT"
+homepage = "https://conlang.tools/"
+repository = "https://github.com/conlangtools/chronlang-engine"
+
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
