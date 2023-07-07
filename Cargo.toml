@@ -1,6 +1,6 @@
 [package]
 name = "chronlang-engine"
-version = "0.1.1"
+version = "0.1.2"
 description = "Language backend for Chronlang, a computer language for crafting constructed languages."
 license = "MIT"
 homepage = "https://conlang.tools/"
