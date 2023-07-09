@@ -109,9 +109,9 @@ fn compile_ast(ast: Vec<(ast::Span, ast::Stmt)>, source_name: &str, resolver: &i
                 annotates,
                 phonemes,
             } => {
-                let phoneme_names = phonemes.iter().map(|p| p.label.1.clone()).collect::<Vec<_>>();
-                let encodes_names = encodes.iter().map(|e| e.1.clone()).collect::<Vec<_>>();
-                let annotates_names = annotates.iter().map(|e| e.1.clone()).collect::<Vec<_>>();
+                let phoneme_names = phonemes.iter().map(|(_, p)| p.label.1.clone()).collect::<Vec<_>>();
+                let encodes_names = encodes.iter().map(|(_, e)| e.clone()).collect::<Vec<_>>();
+                let annotates_names = annotates.iter().map(|(_, e)| e.clone()).collect::<Vec<_>>();
 
                 let maybe_clash = project.add_symbol(Symbol {
                     name: label.1.clone(),
@@ -130,17 +130,17 @@ fn compile_ast(ast: Vec<(ast::Span, ast::Stmt)>, source_name: &str, resolver: &i
                 }
 
                 let mut clashes = phonemes.iter()
-                    .flat_map(|p| {
+                    .flat_map(|(phoneme_span, phoneme)| {
                         let symbol = Symbol {
-                            name: p.label.1.clone(),
-                            loc: Location { source_name: source_name.into(), span: span.clone() },
-                            value: Entity::Phoneme { class: label.clone(), label: p.label.clone(), traits: p.traits.clone() },
+                            name: phoneme.label.1.clone(),
+                            loc: Location { source_name: source_name.into(), span: phoneme_span.clone() },
+                            value: Entity::Phoneme { class: label.clone(), label: phoneme.label.clone(), traits: phoneme.traits.clone() },
                             dependencies: vec![label.1.clone()],
                         };
 
                         match project.add_symbol(symbol) {
                             Ok(_) => vec![],
-                            Err(clash) => vec![CompilationError::NameCollision(p.label.0.clone(), clash.clone())],
+                            Err(clash) => vec![CompilationError::NameCollision(phoneme.label.0.clone(), clash.clone())],
                         }
                     })
                     .collect::<Vec<_>>();
@@ -177,9 +177,9 @@ fn compile_ast(ast: Vec<(ast::Span, ast::Stmt)>, source_name: &str, resolver: &i
                     loc: Location { source_name: source_name.into(), span: span.clone() },
                     value: Entity::Trait {
                         label: label.clone(),
-                        members: members.clone(),
+                        members: members.iter().map(|(_, m)| m.clone()).collect::<Vec<_>>(),
                     },
-                    dependencies: members.iter().map(|member| member.labels[0].1.clone()).collect::<Vec<_>>(),
+                    dependencies: members.iter().map(|member| member.1.labels[0].1.clone()).collect::<Vec<_>>(),
                 });
                 
                 if let Err(clash) = maybe_clash {
@@ -187,22 +187,22 @@ fn compile_ast(ast: Vec<(ast::Span, ast::Stmt)>, source_name: &str, resolver: &i
                 }
 
                 let mut clashes = members.iter()
-                    .flat_map(|m| {
+                    .flat_map(|(member_span, member)| {
                         let symbol = Symbol {
-                            name: m.labels[0].1.clone(),
-                            loc: Location { source_name: source_name.into(), span: span.clone()},
+                            name: member.labels[0].1.clone(),
+                            loc: Location { source_name: source_name.into(), span: member_span.clone()},
                             value: Entity::TraitMember {
-                                label: m.labels[0].clone(),
-                                aliases: m.labels[1..].to_vec(),
-                                default: m.default,
-                                notation: m.notation.clone(),
+                                label: member.labels[0].clone(),
+                                aliases: member.labels[1..].to_vec(),
+                                default: member.default,
+                                notation: member.notation.clone(),
                             },
                             dependencies: vec![label.1.clone()],
                         };
 
                         match project.add_symbol(symbol) {
                             Ok(_) => vec![],
-                            Err(clash) => vec![CompilationError::NameCollision(m.labels[0].0.clone(), clash.clone())],
+                            Err(clash) => vec![CompilationError::NameCollision(member.labels[0].0.clone(), clash.clone())],
                         }
                     })
                     .collect::<Vec<_>>();
@@ -388,7 +388,7 @@ mod tests {
                 141..142,
                 Symbol {
                     name: "b".into(),
-                    loc: Location { source_name: "consonants".into(), span: 192..331 },
+                    loc: Location { source_name: "consonants".into(), span: 292..316 },
                     value: Entity::Phoneme {
                         class:  (198..199, "C".into()),
                         label: (292..293, "b".into()),
