@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use chronlang_parser::ast;
+use chronlang_parser::ast::{self, TraitMember};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Location {
@@ -46,7 +46,7 @@ pub enum Entity {
     },
     Trait {
         label: ast::Spanned<String>,
-        members: Vec<ast::TraitMember>,
+        members: Vec<TraitMember>,
     },
     TraitMember {
         label: ast::Spanned<String>,
