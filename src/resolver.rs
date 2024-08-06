@@ -1,4 +1,5 @@
-use std::{collections::HashMap, path::Path, fs};
+use std::{collections::HashMap, fs, path::Path};
+use std::fmt::Display;
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum ResolutionError {
@@ -6,12 +7,13 @@ pub enum ResolutionError {
     PathNotFound(String),
 }
 
-impl ToString for ResolutionError {
-    fn to_string(&self) -> String {
-        match self {
+impl Display for ResolutionError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let str = match self {
             ResolutionError::InvalidPathForResolver(reason) => format!("{reason}. Try using a different resolver."),
             ResolutionError::PathNotFound(path) => format!("Failed to resolve path `{path}`."),
-        }
+        };
+        write!(f, "{}", str)
     }
 }
 
@@ -36,7 +38,7 @@ impl Resolve for FileSystemResolver<'_> {
         match path.get(0) {
             Some(segment) if segment.starts_with('@') => {
                 return Err(ResolutionError::InvalidPathForResolver("FileSystemResolver cannot resolve remote imports.".into()))
-            },
+            }
             _ => {}
         }
 
@@ -45,7 +47,7 @@ impl Resolve for FileSystemResolver<'_> {
         let file_name = dir.to_str().unwrap();
 
         if let Some(value) = self.cache.get(file_name) {
-            return Ok((value.clone(), file_name.to_string()))
+            return Ok((value.clone(), file_name.to_string()));
         }
 
         let file = fs::read_to_string(dir.clone());
@@ -84,21 +86,20 @@ mod test {
 
     #[test]
     fn file_system_resolver_resolves_an_existing_path() {
-        let base_path = Path::new("./");
+        let base_path = Path::new("./example");
         let resolver = FileSystemResolver::new(base_path);
-        
+
         assert!(resolver.resolve(&["demo"]).is_ok());
     }
 
     #[test]
     fn file_system_resolver_rejects_an_invalid_path() {
-        let base_path = Path::new("./");
+        let base_path = Path::new("./example");
         let resolver = FileSystemResolver::new(base_path);
 
         assert_eq!(
             resolver.resolve(&["invalid"]),
-            Err(ResolutionError::PathNotFound("./invalid.lang".into())),
+            Err(ResolutionError::PathNotFound("./example/invalid.lang".into())),
         );
-
     }
 }

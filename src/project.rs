@@ -53,7 +53,7 @@ pub enum Entity {
         aliases: Vec<ast::Spanned<String>>,
         default: bool,
         notation: Option<ast::Spanned<String>>,
-    }
+    },
 }
 
 #[derive(Debug, PartialEq)]
@@ -90,7 +90,7 @@ impl Project {
         }
     }
 
-    pub fn add_all_symbols(&mut self, symbols: impl Iterator<Item = Symbol>) -> Result<(), Vec<Symbol>> {
+    pub fn add_all_symbols(&mut self, symbols: impl Iterator<Item=Symbol>) -> Result<(), Vec<Symbol>> {
         let clashes = symbols
             .flat_map(|sym| match self.add_symbol(sym) {
                 Ok(_) => vec![],
@@ -125,7 +125,7 @@ impl Project {
                     deps.append(&mut symbol.dependencies.clone());
                     // println!("Will import: {:?}", imports.keys().collect::<Vec<_>>());
                     // println!("Left to search: {:?}", deps);
-                },
+                }
                 None => errors.push(ImportError::FailedDependency(current.to_string())),
             }
         }
