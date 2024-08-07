@@ -1,6 +1,9 @@
 use std::collections::HashMap;
 
 use chronlang_parser::ast::{self, TraitMember};
+use crate::language::Language;
+use crate::tag::Tag;
+use crate::word::Word;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Location {
@@ -18,17 +21,8 @@ pub struct Symbol {
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum Entity {
-    Language {
-        id: ast::Spanned<String>,
-        name: Option<ast::Spanned<String>>,
-        parent: Option<ast::Spanned<String>>,
-    },
-    Word {
-        gloss: ast::Spanned<String>,
-        pronunciation: ast::Spanned<Vec<String>>,
-        definitions: Vec<ast::Definition>,
-        tag: Tag,
-    },
+    Language(Language),
+    Word(Word),
     Class {
         label: ast::Spanned<String>,
         encodes: Vec<ast::Spanned<String>>,
@@ -67,7 +61,10 @@ pub enum ImportError {
 pub struct Project {
     pub milestones: Vec<i64>,
     pub symbols: HashMap<String, Symbol>,
+    pub languages: Vec<Language>,
+    pub words: Vec<Word>,
     pub sound_changes: Vec<SoundChange>,
+    pub tags: Vec<Tag>
 }
 
 impl Project {
@@ -75,7 +72,10 @@ impl Project {
         Self {
             symbols: HashMap::new(),
             milestones: Vec::new(),
+            languages: Vec::new(),
+            words: Vec::new(),
             sound_changes: Vec::new(),
+            tags: Vec::new(),
         }
     }
 
@@ -146,25 +146,6 @@ impl Project {
 
     pub fn import_all_from(&mut self, other: &Project) -> Result<(), Vec<ImportError>> {
         self.import(other.symbols.keys().map(|k| k.as_str()).collect::<Vec<_>>().as_slice(), other)
-    }
-}
-
-#[derive(Clone, Debug, PartialEq)]
-pub struct Tag {
-    pub language: String,
-    pub lang_set_span: ast::Span,
-    pub time: ast::Time,
-    pub time_set_span: ast::Span,
-}
-
-impl Tag {
-    pub fn new(lang: &ast::Spanned<String>, time: &ast::Spanned<ast::Time>) -> Self {
-        Self {
-            language: lang.1.clone(),
-            lang_set_span: lang.0.clone(),
-            time: time.1.clone(),
-            time_set_span: time.0.clone(),
-        }
     }
 }
 

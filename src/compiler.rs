@@ -1,12 +1,15 @@
 use chronlang_parser::{ast, parse};
-use chronlang_parser::ast::{Definition, Span, Spanned};
-
+use chronlang_parser::ast::{Span, Spanned};
+use crate::language::Language;
 use crate::project::*;
 use crate::resolver::Resolve;
+use crate::tag::Tag;
+use crate::word::{Word, Definition};
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum CompilationError {
     ParseErrors(Vec<(Span, String)>),
+    FirstTagNoLanguage(Span),
     NoLanguage(Span),
     BadImport(Span, String),
     ImportedNameNotFound(Span, String),
@@ -54,7 +57,7 @@ fn compile_ast(ast: Vec<(Span, ast::Stmt)>, source_name: &str, resolver: &impl R
     for (span, stmt) in ast {
         match stmt {
             ast::Stmt::Milestone { time, language } =>
-                compile_milestone(&mut project, &mut state, time, language),
+                compile_milestone(&mut project, &mut state, &span, time, language),
             ast::Stmt::SoundChange { source, target, environment, description, } =>
                 compile_sound_change(&mut project, &mut state, span, source, target, environment, description),
             ast::Stmt::Language { id, parent, name } =>
@@ -80,7 +83,7 @@ fn compile_ast(ast: Vec<(Span, ast::Stmt)>, source_name: &str, resolver: &impl R
     }
 }
 
-fn compile_milestone(project: &mut Project, state: &mut CompilerState, time: Option<Spanned<ast::Time>>, language: Option<Spanned<String>>) {
+fn compile_milestone(project: &mut Project, state: &mut CompilerState, span: &Span, time: Option<Spanned<ast::Time>>, language: Option<Spanned<String>>) {
     if let Some(time) = time {
         project.milestones.push(match time.1 {
             ast::Time::Instant(t) => t,
@@ -91,7 +94,14 @@ fn compile_milestone(project: &mut Project, state: &mut CompilerState, time: Opt
 
     if let Some(language) = language {
         state.current_language = Some(language.clone())
+    } else if project.tags.len() == 0 {
+        state.errors.push(CompilationError::FirstTagNoLanguage(span.clone()))
     }
+
+    if let Some(language) = state.current_language.clone() {
+        project.tags.push(Tag::new(&language, &state.current_time))
+    }
+
 }
 
 fn compile_sound_change(project: &mut Project, state: &mut CompilerState, span: Span, source: Spanned<ast::Source>, target: Spanned<ast::Target>, environment: Option<Spanned<ast::Environment>>, description: Option<Spanned<String>>) {
@@ -111,35 +121,42 @@ fn compile_sound_change(project: &mut Project, state: &mut CompilerState, span: 
 }
 
 fn compile_language(project: &mut Project, state: &mut CompilerState, span: &Span, id: Spanned<String>, parent: Option<Spanned<String>>, name: Option<Spanned<String>>) {
+    let language = Language::new(&id, &name, &parent);
+
     let maybe_clash = project.add_symbol(Symbol {
         name: id.1.clone(),
         loc: Location { source_name: state.source_name.into(), span: span.clone() },
-        value: Entity::Language { id: id.clone(), name, parent: parent.clone() },
+        value: Entity::Language(language.clone()),
         dependencies: parent.map(|(_, p)| vec![p]).unwrap_or(vec![]),
     });
 
     if let Err(clash) = maybe_clash {
         state.errors.push(CompilationError::NameCollision(id.0, clash));
+    } else {
+        project.languages.push(language);
     }
 }
 
-fn compile_word(project: &mut Project, state: &mut CompilerState, span: &Span, gloss: Spanned<String>, pronunciation: Spanned<Vec<String>>, definitions: Vec<Definition>) {
+fn compile_word(project: &mut Project, state: &mut CompilerState, span: &Span, gloss: Spanned<String>, pronunciation: Spanned<Vec<String>>, definitions: Vec<ast::Definition>) {
     match &state.current_language {
         Some(lang) => {
+            let defs = definitions.iter()
+                .map(|def| { Definition::new(&def.pos, &def.definition) })
+                .collect::<Vec<Definition>>();
+
+            let word = Word::new(&gloss, &pronunciation, &defs, &Tag::new(lang, &state.current_time));
+
             let maybe_clash = project.add_symbol(Symbol {
                 name: gloss.1.clone(),
                 loc: Location { source_name: state.source_name.into(), span: span.clone() },
-                value: Entity::Word {
-                    gloss: gloss.clone(),
-                    pronunciation,
-                    definitions,
-                    tag: Tag::new(&lang.clone(), &state.current_time),
-                },
+                value: Entity::Word(word.clone()),
                 dependencies: vec![],
             });
 
             if let Err(clash) = maybe_clash {
                 state.errors.push(CompilationError::NameCollision(gloss.0, clash));
+            } else {
+                project.words.push(word);
             }
         }
         _ => state.errors.push(CompilationError::NoLanguage(span.clone())),
@@ -435,13 +452,6 @@ mod tests {
                 },
             ),
         ];
-
-        // println!("\n\n{:#?}\n\n", res.project.symbols.keys().collect::<Vec<_>>());
-
-        // println!("\n\n{:#?}\n\n", res);
-
-        // println!("Expected:\n{:#?}\n\n", expected_errors);
-        // println!("Actual:\n{:#?}\n\n", res.errors);
 
         assert_eq!(res.errors, expected_errors);
     }
