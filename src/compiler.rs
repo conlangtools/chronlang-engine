@@ -212,8 +212,8 @@ fn compile_series(project: &mut Project, state: &mut CompilerState, span: &Span,
             series: series.clone(),
         },
         dependencies: match series.1 {
-            ast::Series::Category(_) => vec![/* TODO: resolve category to get list of phonemes */],
-            ast::Series::List(ps) => ps.iter().map(|(_, p)| p.clone()).collect::<Vec<_>>(),
+            ast::Series::Category(cat) => cat.base_class.map(|(_, c)| vec![c.to_string()]).unwrap_or(vec![]),
+            ast::Series::List(ps) => ps.iter().map(|(_, p)| p.clone()).collect::<Vec<String>>(),
         },
     });
 
