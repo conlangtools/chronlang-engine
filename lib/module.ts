@@ -1,0 +1,143 @@
+import type { ast } from "@conlangtools/chronlang-parser";
+import {
+  filterByTag,
+  type Language,
+  type Milestone,
+  sortByTag,
+} from "./diachronics.ts";
+import type { Class, Feature, Phoneme, Series, Trait } from "./phonemics.ts";
+import type { Word } from "./word.ts";
+import type { SoundChange } from "./sound-change.ts";
+
+export type Snapshot = SnapshotContext & {
+  ok: boolean;
+  words: Word[];
+  soundChanges: SoundChange[];
+};
+
+export type SnapshotContext = {
+  language: Language;
+  time: number;
+  errors: { message: string; span: ast.Span }[];
+  warnings: { message: string; span: ast.Span }[];
+};
+
+type Member = Language | Trait | Class | Series | Word;
+
+export class Module {
+  constructor(
+    public readonly languages: Map<string, Language> = new Map(),
+    public readonly milestones: Milestone[] = [],
+    public readonly traits: Map<string, Trait> = new Map(),
+    public readonly classes: Map<string, Class> = new Map(),
+    public readonly series: Map<string, Series> = new Map(),
+    public readonly words: Map<string, Word> = new Map(),
+    public readonly soundChanges: SoundChange[] = [],
+    public readonly warnings: { message: string; span: ast.Span }[] = [],
+    public readonly errors: { message: string; span: ast.Span }[] = [],
+  ) {}
+
+  private getMembers(): Map<string, Member> {
+    return new Map([
+      ...this.languages,
+      ...this.traits,
+      ...this.classes,
+      ...this.series,
+      ...this.words,
+    ] as (readonly [string, Member])[]);
+  }
+
+  public hasEntity(name: string) {
+    return this.getMembers().has(name);
+  }
+
+  private import(entity: Member) {
+    switch (entity.kind) {
+      case "language":
+        this.languages.set(entity.id, entity);
+        break;
+      case "trait":
+        this.traits.set(entity.name, entity);
+        break;
+      case "class":
+        this.classes.set(entity.name, entity);
+        entity.encodes.map((trait) => this.traits.set(trait.name, trait));
+        break;
+      case "series":
+        this.series.set(entity.name, entity);
+        break;
+      case "word":
+        this.words.set(entity.gloss, entity);
+        break;
+    }
+  }
+
+  public importFrom(module: Module, name: string) {
+    this.import(module.getMembers().get(name)!);
+  }
+
+  public importAllFrom(module: Module) {
+    [...module.getMembers().values()]
+      .map((member) => this.import(member));
+  }
+
+  public getFeatures(): Map<string, Feature> {
+    return new Map(
+      [...this.traits.values()]
+        .flatMap((trait) => trait.features)
+        .flatMap((feat) => feat.labels.map(([label, _]) => [label, feat])),
+    );
+  }
+
+  public getPhonemes(): Map<string, Phoneme> {
+    return new Map(
+      [...this.classes.values()]
+        .flatMap((clazz) => clazz.phonemes)
+        .map((ph) => [ph.glyph, ph]),
+    );
+  }
+
+  public listPhonemes(): Phoneme[] {
+    return [...this.classes.values()]
+      .flatMap((clazz) => clazz.phonemes)
+      .toSorted((a, b) => {
+        if (a.glyph.length < b.glyph.length) return 1;
+        if (b.glyph.length < a.glyph.length) return -1;
+        if (a.index < b.index) return -1;
+        if (b.index < a.index) return 1;
+        return 0;
+      });
+  }
+
+  public getSoundEntity(name: string): Class | Series | Phoneme | undefined {
+    return this.classes.get(name) ??
+      this.series.get(name) ??
+      this.getPhonemes().get(name);
+  }
+
+  public snapshot(language: Language, time: number): Snapshot {
+    const soundChanges = filterByTag(
+      [...this.soundChanges.values()],
+      language,
+      time,
+    )
+      .toSorted(sortByTag);
+
+    const ctx: SnapshotContext = {
+      language,
+      time,
+      errors: [],
+      warnings: [],
+    };
+
+    const words = filterByTag([...this.words.values()], language, time)
+      .map((word) => soundChanges.reduce((w, sc) => w.apply(sc, ctx), word));
+
+    return {
+      ...ctx,
+      ok: ctx.errors.length === 0,
+      words,
+      soundChanges,
+    };
+  }
+}
