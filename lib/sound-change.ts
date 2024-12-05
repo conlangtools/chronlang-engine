@@ -61,6 +61,11 @@ function categoryIncludes(cat: Category, ph: Phoneme): boolean {
   return true;
 }
 
+/**
+ * A class representing a regular sound change.
+ * 
+ * Can be used to mutate {@link Word}s
+ */
 export class SoundChange {
   public readonly kind = "sound-change";
   constructor(
