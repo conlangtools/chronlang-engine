@@ -1,5 +1,5 @@
 import { type ast, parse } from "@conlangtools/chronlang-parser";
-import { assert } from "jsr:@std/assert";
+import { assert } from "jsr:@std/assert@1.0.8";
 import {
   type Category,
   type Class,
