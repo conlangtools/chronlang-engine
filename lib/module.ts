@@ -58,11 +58,11 @@ export class Module {
     ] as (readonly [string, Member])[]);
   }
 
-  public hasEntity(name: string) {
+  public hasEntity(name: string): boolean {
     return this.getMembers().has(name);
   }
 
-  private import(entity: Member) {
+  private import(entity: Member): void {
     switch (entity.kind) {
       case "language":
         this.languages.set(entity.id, entity);
@@ -83,11 +83,11 @@ export class Module {
     }
   }
 
-  public importFrom(module: Module, name: string) {
+  public importFrom(module: Module, name: string): void {
     this.import(module.getMembers().get(name)!);
   }
 
-  public importAllFrom(module: Module) {
+  public importAllFrom(module: Module): void {
     [...module.getMembers().values()]
       .map((member) => this.import(member));
   }
