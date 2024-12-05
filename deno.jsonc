@@ -4,5 +4,8 @@
   "exports": "./mod.ts",
   "imports": {
     "@conlangtools/chronlang-parser": "jsr:@conlangtools/chronlang-parser@^0.1.14"
+  },
+  "tasks": {
+    "test": "deno test -R"
   }
 }
