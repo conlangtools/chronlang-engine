@@ -81,7 +81,7 @@ type ResolutionResult =
   | { ok: true; module: Module }
   | { ok: false; error: string };
 
-interface ModuleResolver {
+export interface ModuleResolver {
   resolveScoped(scope: string, path: string): ResolutionResult;
   resolveLocal(path: string, absolute: boolean): ResolutionResult;
 }
