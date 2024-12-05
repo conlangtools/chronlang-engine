@@ -1,5 +1,8 @@
 import type { ast } from "@conlangtools/chronlang-parser";
 
+/**
+ * Represents a member of a language family
+ */
 export type Language = {
   kind: "language";
   name: string;
@@ -15,6 +18,10 @@ export type Milestone = {
   language: Language;
 };
 
+/**
+ * A type used to specify a point in time in
+ * a specific language's evolution
+ */
 export type Tag = {
   start: number;
   end: number;

@@ -81,6 +81,12 @@ type ResolutionResult =
   | { ok: true; module: Module }
   | { ok: false; error: string };
 
+
+/**
+ * This interface must be implemented by the `resolver` argument
+ * to {@link compileModule}, to ensure modules can be resolved
+ * appropriately in any given client application.
+ */
 export interface ModuleResolver {
   resolveScoped(scope: string, path: string): ResolutionResult;
   resolveLocal(path: string, absolute: boolean): ResolutionResult;
@@ -116,6 +122,11 @@ export class MockResolver implements ModuleResolver {
   }
 }
 
+/**
+ * Parse chronlang source code & compile the AST into
+ * a {@link Module} object that can be used to generate
+ * insights for a language family.
+ */
 export function compileModule(
   source: string,
   sourceName: string,

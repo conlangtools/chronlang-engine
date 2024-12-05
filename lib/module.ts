@@ -9,6 +9,10 @@ import type { Class, Feature, Phoneme, Series, Trait } from "./phonemics.ts";
 import type { Word } from "./word.ts";
 import type { SoundChange } from "./sound-change.ts";
 
+/**
+ * A type representing a particular branch of
+ * a language family at a given point in time.
+ */
 export type Snapshot = SnapshotContext & {
   ok: boolean;
   words: Word[];
@@ -24,6 +28,13 @@ export type SnapshotContext = {
 
 type Member = Language | Trait | Class | Series | Word;
 
+/**
+ * A class representing a compiled Chronlang module.
+ * 
+ * Stores information about phonemes, words, languages,
+ * sound changes, etc. in a given module. Can be used
+ * to generate snapshots of a language family.
+ */
 export class Module {
   constructor(
     public readonly languages: Map<string, Language> = new Map(),

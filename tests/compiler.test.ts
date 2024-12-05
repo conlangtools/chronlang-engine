@@ -38,5 +38,4 @@ Deno.test("it works", () => {
 
   assertEquals(module.errors.length, 0);
   assertEquals(module.warnings.length, 0);
-  
 });

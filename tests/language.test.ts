@@ -7,7 +7,7 @@ Deno.test("compile a language", () => {
   const code = `
     lang PA
   `;
-  
+
   const module = compileModule(code, source, resolver);
 
   assertEquals(module.errors.length, 0);
@@ -30,7 +30,7 @@ Deno.test("compile a language with a name", () => {
   const code = `
     lang PA: Proto-Arinaga
   `;
-  
+
   const module = compileModule(code, source, resolver);
 
   assertEquals(module.errors.length, 0);
@@ -134,7 +134,7 @@ Deno.test("raise an error for missing parent", () => {
   const code = `
     lang PA < NO
   `;
-  
+
   const module = compileModule(code, source, resolver);
 
   assertEquals(module.languages.size, 1);
