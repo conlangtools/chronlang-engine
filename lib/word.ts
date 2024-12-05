@@ -4,6 +4,13 @@ import type { SoundChange } from "./sound-change.ts";
 import type { Tag } from "./diachronics.ts";
 import type { SnapshotContext } from "./module.ts";
 
+/**
+ * A class representing a member of a language's dictionary,
+ * and its pronunciation at a given {@link Tag}
+ * 
+ * Can be rendered as a phonemic transcription, or mutated
+ * by sound changes.
+ */
 export class Word {
   public readonly kind = "word";
   constructor(
