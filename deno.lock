@@ -2,36 +2,17 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@conlangtools/chronlang-parser@^0.1.14": "jsr:@conlangtools/chronlang-parser@0.1.14",
-      "jsr:@std/assert": "jsr:@std/assert@1.0.7",
+      "jsr:@conlangtools/chronlang-parser@0.1.x": "jsr:@conlangtools/chronlang-parser@0.1.15",
+      "jsr:@std/assert": "jsr:@std/assert@1.0.9",
       "jsr:@std/assert@1.0.8": "jsr:@std/assert@1.0.8",
-      "jsr:@std/internal@^1.0.4": "jsr:@std/internal@1.0.4",
       "jsr:@std/internal@^1.0.5": "jsr:@std/internal@1.0.5",
       "npm:peggy@4.1": "npm:peggy@4.1.1"
     },
     "jsr": {
-      "@conlangtools/chronlang-parser@0.1.14": {
-        "integrity": "062b71d25573bb085cba914a7d0da675a3e4b553447fd5811cf55ea05e0f93c5",
+      "@conlangtools/chronlang-parser@0.1.15": {
+        "integrity": "99ccf4081767c7094215a275d1c36f18a8e6d5f286bcc1c78ad1c6ebb58444a8",
         "dependencies": [
           "npm:peggy@4.1"
-        ]
-      },
-      "@conlangtools/chronlang-parser@0.1.4": {
-        "integrity": "2d88bed45b5bb4280cf1f7b7bd6fbe8ecdc44f753b453e233db1ac3a4f7628c7",
-        "dependencies": [
-          "npm:peggy@4.1"
-        ]
-      },
-      "@std/assert@1.0.6": {
-        "integrity": "1904c05806a25d94fe791d6d883b685c9e2dcd60e4f9fc30f4fc5cf010c72207",
-        "dependencies": [
-          "jsr:@std/internal@^1.0.4"
-        ]
-      },
-      "@std/assert@1.0.7": {
-        "integrity": "64ce9fac879e0b9f3042a89b3c3f8ccfc9c984391af19e2087513a79d73e28c3",
-        "dependencies": [
-          "jsr:@std/internal@^1.0.5"
         ]
       },
       "@std/assert@1.0.8": {
@@ -40,8 +21,11 @@
           "jsr:@std/internal@^1.0.5"
         ]
       },
-      "@std/internal@1.0.4": {
-        "integrity": "62e8e4911527e5e4f307741a795c0b0a9e6958d0b3790716ae71ce085f755422"
+      "@std/assert@1.0.9": {
+        "integrity": "a9f0c611a869cc791b26f523eec54c7e187aab7932c2c8e8bea0622d13680dcd",
+        "dependencies": [
+          "jsr:@std/internal@^1.0.5"
+        ]
       },
       "@std/internal@1.0.5": {
         "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
@@ -79,7 +63,7 @@
   "remote": {},
   "workspace": {
     "dependencies": [
-      "jsr:@conlangtools/chronlang-parser@^0.1.14"
+      "jsr:@conlangtools/chronlang-parser@0.1.x"
     ]
   }
 }
