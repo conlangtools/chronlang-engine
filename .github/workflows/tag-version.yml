@@ -20,7 +20,7 @@ jobs:
           deno-version: v2.0
       - name: Extract Module Version
         id: get-tag
-        run: echo "tag=v$(jq .version deno.jsonc)" >> $GITHUB_OUTPUT
+        run: echo "tag=v$(jq -r .version deno.jsonc)" >> $GITHUB_OUTPUT
 
   get-last-tag:
     name: Get Last Tag
@@ -37,7 +37,7 @@ jobs:
             semver_only: true
 
   create-tag:
-    if: ${{ needs.get-next-tag.outputs.tag }} != ${{ needs.get-last-tag.outputs.tag }}
+    if: needs.get-next-tag.outputs.tag != needs.get-last-tag.outputs.tag
     name: Create Tag
     runs-on: ubuntu-latest
     needs:
