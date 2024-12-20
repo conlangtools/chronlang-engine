@@ -37,7 +37,7 @@ jobs:
             semver_only: true
 
   create-tag:
-    if: ${{ needs.get-next-tag.outputs.tag }} == ${{ needs.get-last-tag.outputs.tag }}
+    if: ${{ needs.get-next-tag.outputs.tag }} != ${{ needs.get-last-tag.outputs.tag }}
     name: Create Tag
     runs-on: ubuntu-latest
     needs:
