@@ -84,6 +84,10 @@ jobs:
         with:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.0
       - name: Install Yarn
         run: npm i -g yarn
       - name: Set Package Version
