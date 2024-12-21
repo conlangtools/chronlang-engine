@@ -14,10 +14,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version: v2.0
       - name: Extract Module Version
         id: get-tag
         run: echo "tag=v$(jq -r .version deno.jsonc)" >> $GITHUB_OUTPUT
@@ -68,14 +64,14 @@ jobs:
       - name: Setup Deno
         uses: denoland/setup-deno@v2
         with:
-          deno-version: v2.0
+          deno-version: v1.40
       - name: Publish to JSR
         run: deno publish
 
   publish-node:
     needs:
       - create-tag
-    runs-on: windows-latest 
+    runs-on: ubuntu-latest 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -87,17 +83,17 @@ jobs:
       - name: Setup Deno
         uses: denoland/setup-deno@v2
         with:
-          deno-version: v2.0
+          deno-version: v1.40
       - name: Install Yarn
         run: npm i -g yarn
       - name: Set Package Version
+        env:
+          TAG: ${{ needs.create-tag.outputs.tag }}
         run: |
           cd ./web-wrapper
           yarn version --no-git-tag-version --new-version "${TAG:1}"
-        env:
-          TAG: ${{ needs.create-tag.outputs.tag }}
       - name: Bundle Package
-        run: deno task build:web
+        run: deno task bundle
       - name: Publish to NPM Registry
         run: |
           cd ./web-wrapper
