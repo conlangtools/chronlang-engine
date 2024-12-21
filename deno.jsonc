@@ -7,6 +7,6 @@
   },
   "tasks": {
     "test": "deno test -R",
-    "build:web": "cd web-wrapper && yarn && yarn run build"
+    "bundle": "cd web-wrapper && yarn && yarn run build"
   }
 }
