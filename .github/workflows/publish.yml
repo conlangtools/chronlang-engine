@@ -98,7 +98,7 @@ jobs:
       - name: Bundle Package
         working-directory: ./web-wrapper
         run: |
-          yarn
+          yarn install --immutable --immutable-cache --check-cache
           yarn run build
       - name: Publish to NPM Registry
         working-directory: ./web-wrapper
