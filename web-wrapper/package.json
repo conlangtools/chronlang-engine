@@ -1,5 +1,5 @@
 {
-  "name": "chronlang-web-wrapper",
+  "name": "@conlangtools/chronlang-web-wrapper",
   "type": "module",
   "files": [
     "dist"
