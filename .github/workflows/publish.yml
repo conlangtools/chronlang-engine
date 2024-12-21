@@ -97,6 +97,6 @@ jobs:
       - name: Publish to NPM Registry
         run: |
           cd ./web-wrapper
-          yarn publish
+          yarn publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
