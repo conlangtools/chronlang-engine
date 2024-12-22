@@ -1,0 +1,29 @@
+{
+  "name": "@conlangtools/chronlang-engine",
+  "version": "0.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "faewd <git@faew.dev>",
+  "license": "Apache-2.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/chronlang-engine.mjs",
+  "module": "./dist/chronlang-engine.umd.js",
+  "types": "./dist/chronlang-engine.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/chronlang-engine.js",
+      "require": "./dist/chronlang-engine.umd.cjs"
+    }
+  },
+  "dependencies": {
+    "@conlangtools/chronlang-parser": "0.1.x"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "vite": "^6.0.5",
+    "vite-plugin-dts": "^4.4.0"
+  }
+}
