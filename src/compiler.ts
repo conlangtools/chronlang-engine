@@ -131,8 +131,8 @@ export function compileModule(
 
   const parseResult = parse(source, sourceName);
   if (!parseResult.ok) {
-    const { error } = parseResult;
-    module.errors.push({ message: error.message, span: error.location });
+    const { error, span } = parseResult;
+    module.errors.push({ message: error.message, span });
     return module;
   }
 
