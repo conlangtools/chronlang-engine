@@ -1,5 +1,9 @@
 {
   "deno.enable": true,
   "deno.config": "./deno.jsonc",
+  "deno.disablePaths": [
+    "./vite.config.ts",
+    "./dist"
+  ],
   "editor.defaultFormatter": "denoland.vscode-deno"
 }

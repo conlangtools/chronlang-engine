@@ -1,4 +1,4 @@
-import { MockResolver } from "../lib/compiler.ts";
+import { MockResolver } from "../src/compiler.ts";
 
 export default new MockResolver(
   new Map([

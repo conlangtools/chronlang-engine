@@ -1,5 +1,5 @@
 import { assertEquals } from "jsr:@std/assert/equals";
-import { compileModule, stringifySpan } from "../lib/compiler.ts";
+import { compileModule } from "../src/compiler.ts";
 import resolver from "./mock-resolver.ts";
 
 Deno.test("it works", () => {

@@ -19,8 +19,8 @@
  * ```
  */
 
-export { compileModule, type ModuleResolver } from "./lib/compiler.ts";
-export { Module, type Snapshot } from "./lib/module.ts";
-export type { Language, Tag } from "./lib/diachronics.ts";
-export type { Word } from "./lib/word.ts";
-export type { SoundChange } from "./lib/sound-change.ts";
+export { compileModule, type ModuleResolver } from "./compiler.ts";
+export { Module, type Snapshot } from "./module.ts";
+export type { Language, Tag } from "./diachronics.ts";
+export type { Word } from "./word.ts";
+export type { SoundChange } from "./sound-change.ts";

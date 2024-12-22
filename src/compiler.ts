@@ -1,5 +1,5 @@
 import { type ast, parse } from "@conlangtools/chronlang-parser";
-import { assert } from "jsr:@std/assert@1.0.8";
+
 import {
   type Category,
   type Class,
@@ -51,18 +51,12 @@ class Context {
   }
 
   public getTag(): Tag {
-    assert(
-      this.tagStart !== null,
-      "`getTag()` called before start time specified. Use `hasTag()` to validate first.",
-    );
-    assert(
-      this.tagEnd !== null,
-      "`getTag()` called before end time specified. Use `hasTag()` to validate first.",
-    );
-    assert(
-      this.tagLanguage !== null,
-      "`getTag()` called before language specified. Use `hasTag()` to validate first.",
-    );
+    if (this.tagStart === null)
+      throw new Error("`getTag()` called before start time specified. Use `hasTag()` to validate first.");
+    if (this.tagEnd === null)
+      throw new Error("`getTag()` called before end time specified. Use `hasTag()` to validate first.");
+    if (this.tagLanguage === null)
+      throw new Error("`getTag()` called before language specified. Use `hasTag()` to validate first.");
 
     return {
       start: this.tagStart,
