@@ -202,6 +202,18 @@ export function stringifySpan({ source, start }: ast.Span): string {
   return `${source} ${start.line}:${start.column}`;
 }
 
+function tryAddMilestone(module: Module, ctx: Context): void {
+  if (ctx.hasTag()) {
+    const tag = ctx.getTag();
+    module.milestones.push({
+      kind: "milestone",
+      starts: tag.start,
+      ends: tag.end,
+      language: tag.language
+    })
+  }
+}
+
 export function compileImport(
   module: Module,
   moduleResolver: ModuleResolver,
@@ -298,6 +310,8 @@ export function compileLanguage(
 
   ctx.setLanguage(language);
 
+  tryAddMilestone(module, ctx);
+
   return true;
 }
 
@@ -331,6 +345,8 @@ export function compileMilestone(
       ctx.setLanguage(lang);
     }
   }
+
+  tryAddMilestone(module, ctx);
 
   return true;
 }
