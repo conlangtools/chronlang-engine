@@ -5,6 +5,9 @@ on:
   pull_request:
     types: [opened, reopened]
 
+env:
+  DENO_NO_PACKAGE_JSON: 1
+
 jobs:
   test:
     runs-on: ubuntu-latest
