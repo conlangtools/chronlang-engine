@@ -1,35 +1,45 @@
 {
   "version": "4",
   "specifiers": {
-    "jsr:@conlangtools/chronlang-parser@0.1": "0.1.22",
-    "jsr:@std/assert@*": "1.0.10",
-    "jsr:@std/internal@^1.0.5": "1.0.5"
+    "jsr:@conlangtools/chronlang-parser@0.1": "0.1.23",
+    "npm:peggy@4.1": "4.1.1"
   },
   "jsr": {
-    "@conlangtools/chronlang-parser@0.1.22": {
-      "integrity": "a661d16b8df9dae88279e9ea13d25919f211dcecb1a166bfda28f50599fa2b40"
-    },
-    "@std/assert@1.0.10": {
-      "integrity": "59b5cbac5bd55459a19045d95cc7c2ff787b4f8527c0dd195078ff6f9481fbb3",
+    "@conlangtools/chronlang-parser@0.1.23": {
+      "integrity": "f7bb1ed6291755c4bd0d497ddea4bfc8d80fe35410feb9984bf05431a538e765",
       "dependencies": [
-        "jsr:@std/internal"
+        "npm:peggy"
+      ]
+    }
+  },
+  "npm": {
+    "@peggyjs/from-mem@1.3.4": {
+      "integrity": "sha512-6DqaCO73ihyM2AJ2Vl4QQGmmU3MoD4hFh0RFRzxPdLkSLfE0QMEyDfaojE/R3KbsL1UP4VQyJA2clwX4agSTBw==",
+      "dependencies": [
+        "semver"
       ]
     },
-    "@std/internal@1.0.5": {
-      "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
+    "commander@12.1.0": {
+      "integrity": "sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA=="
+    },
+    "peggy@4.1.1": {
+      "integrity": "sha512-2emciJQKahHJpT7f1asizGSnJ8bq0TKgWMXnCrtAaSH1NIXaGifYxL5m5KMrCdlaqaQJz3SVexNkx+I+Vz66VA==",
+      "dependencies": [
+        "@peggyjs/from-mem",
+        "commander",
+        "source-map-generator"
+      ]
+    },
+    "semver@7.6.3": {
+      "integrity": "sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A=="
+    },
+    "source-map-generator@0.8.0": {
+      "integrity": "sha512-psgxdGMwl5MZM9S3FWee4EgsEaIjahYV5AzGnwUvPhWeITz/j6rKpysQHlQ4USdxvINlb8lKfWGIXwfkrgtqkA=="
     }
   },
   "workspace": {
     "dependencies": [
       "jsr:@conlangtools/chronlang-parser@0.1"
-    ],
-    "packageJson": {
-      "dependencies": [
-        "npm:@conlangtools/chronlang-parser@0.1",
-        "npm:@types/node@^22.10.2",
-        "npm:vite-plugin-dts@^4.4.0",
-        "npm:vite@^6.0.5"
-      ]
-    }
+    ]
   }
 }

@@ -28,9 +28,9 @@
     "@babel/helper-validator-identifier" "^7.25.9"
 
 "@conlangtools/chronlang-parser@0.1.x":
-  version "0.1.20"
-  resolved "https://registry.yarnpkg.com/@conlangtools/chronlang-parser/-/chronlang-parser-0.1.20.tgz#cd724980afe8e6e3032690a73da68f8ef6f47b21"
-  integrity sha512-m8fXcwUZIkA5mjj1MKpA40tWyJ88TwafVZ0/PLBP+aNbWFtfvCb5A6Hur8hj1ZDPbJtKXjAmuy3fpA+y51J2+w==
+  version "0.1.23"
+  resolved "https://registry.yarnpkg.com/@conlangtools/chronlang-parser/-/chronlang-parser-0.1.23.tgz#433f1dbb941b0bd90523cc8dd24a6060306569f9"
+  integrity sha512-eBJ0byLnQ5GhW6FkFOG8LyHtGkXq+EcpyHLuBEuxN5Ck36BhKBdOz+nGdAxz/GYzZlISf1cIbGzX4lrgKz5bAQ==
   dependencies:
     peggy "^4.1"
 

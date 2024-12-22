@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  DENO_NO_PACKAGE_JSON: 1
+
 jobs:
   get-next-tag:
     name: Get Next Tag
