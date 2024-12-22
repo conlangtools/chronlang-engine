@@ -1,4 +1,4 @@
-import { compileModule } from "../lib/compiler.ts";
+import { compileModule } from "../src/compiler.ts";
 import { assertEquals } from "jsr:@std/assert";
 import resolver from "./mock-resolver.ts";
 
