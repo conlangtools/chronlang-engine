@@ -48,7 +48,7 @@ export class Module {
     public readonly errors: { message: string; span: ast.Span }[] = [],
   ) {}
 
-  private getMembers(): Map<string, Member> {
+  public getEntities(): Map<string, Member> {
     return new Map([
       ...this.languages,
       ...this.traits,
@@ -59,7 +59,7 @@ export class Module {
   }
 
   public hasEntity(name: string): boolean {
-    return this.getMembers().has(name);
+    return this.getEntities().has(name);
   }
 
   private import(entity: Member): void {
@@ -84,11 +84,11 @@ export class Module {
   }
 
   public importFrom(module: Module, name: string): void {
-    this.import(module.getMembers().get(name)!);
+    this.import(module.getEntities().get(name)!);
   }
 
   public importAllFrom(module: Module): void {
-    [...module.getMembers().values()]
+    [...module.getEntities().values()]
       .map((member) => this.import(member));
   }
 
