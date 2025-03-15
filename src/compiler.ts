@@ -83,7 +83,7 @@ type ResolutionResult =
  */
 export interface ModuleResolver {
   resolveScoped(scope: string, path: string): ResolutionResult;
-  resolveLocal(path: string, absolute: boolean): ResolutionResult;
+  resolveLocal(path: string, absolute: boolean, currentPath: string): ResolutionResult;
 }
 
 export class MockResolver implements ModuleResolver {
@@ -225,7 +225,7 @@ export function compileImport(
 
   const res = stmt.scoped
     ? moduleResolver.resolveScoped(stmt.scope[0], stmt.path[0])
-    : moduleResolver.resolveLocal(stmt.path[0], stmt.absolute);
+    : moduleResolver.resolveLocal(stmt.path[0], stmt.absolute, stmt.names[0][1].source);
 
   if (!res.ok) {
     module.errors.push({
