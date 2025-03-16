@@ -1,6 +1,6 @@
 {
   "name": "@conlangtools/chronlang-engine",
-  "version": "0.1.24",
+  "version": "0.1.25",
   "exports": "./src/mod.ts",
   "imports": {
     "@conlangtools/chronlang-parser": "jsr:@conlangtools/chronlang-parser@0.1.x"
