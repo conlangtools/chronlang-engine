@@ -1,5 +1,5 @@
 import { compileModule } from "../src/compiler.ts";
-import { assertEquals } from "jsr:@std/assert";
+import { assertEquals, assertNotEquals } from "jsr:@std/assert";
 import resolver from "./mock-resolver.ts";
 
 Deno.test("compile a language", () => {
@@ -22,6 +22,7 @@ Deno.test("compile a language", () => {
       start: { offset: 10, line: 2, column: 10 },
       end: { offset: 12, line: 2, column: 12 },
     },
+    milestones: []
   });
 });
 
@@ -40,6 +41,7 @@ Deno.test("compile a language with a name", () => {
     id: "PA",
     name: "Proto-Arinaga",
     parent: null,
+    milestones: [],
     definitionSite: {
       source,
       start: { offset: 10, line: 2, column: 10 },
@@ -47,6 +49,25 @@ Deno.test("compile a language with a name", () => {
     },
   });
 });
+
+Deno.test("add a milestone to the language entity", () => {
+  const source = "source-name";
+  const code = `
+    lang PA: Proto-Arinaga
+    @ 100
+  `;
+
+  const module = compileModule(code, source, resolver);
+  const milestone = module.languages.get("PA")?.milestones[0]
+
+
+  assertEquals(module.errors.length, 0);
+  assertEquals(module.languages.size, 1);
+  assertNotEquals(milestone, undefined);
+  assertEquals(milestone!.starts, 100);
+  assertEquals(milestone!.ends, Infinity);
+  assertEquals(milestone!.language.id, "PA");
+})
 
 Deno.test("compile a language family", () => {
   const source = "source-name";
@@ -62,16 +83,17 @@ Deno.test("compile a language family", () => {
   assertEquals(module.languages.size, 3);
 
   const expectedParent = {
-    kind: "language",
+    kind: "language" as const,
     id: "PA",
     name: "Proto-Arinaga",
     parent: null,
+    milestones: [],
     definitionSite: {
       source,
       start: { offset: 10, line: 2, column: 10 },
       end: { offset: 12, line: 2, column: 12 },
     },
-  } as const;
+  };
 
   assertEquals(module.languages.get("PA"), expectedParent);
 
@@ -80,6 +102,7 @@ Deno.test("compile a language family", () => {
     id: "PAuM",
     name: "Proto-Auzger-Morlan",
     parent: expectedParent,
+    milestones: [],
     definitionSite: {
       source,
       start: { offset: 37, line: 3, column: 10 },
@@ -92,6 +115,7 @@ Deno.test("compile a language family", () => {
     id: "PC",
     name: "Proto-Canolze",
     parent: expectedParent,
+    milestones: [],
     definitionSite: {
       source,
       start: { offset: 77, line: 4, column: 10 },
@@ -114,6 +138,7 @@ Deno.test("raise an error for conflicts", () => {
     id: "PA",
     name: "PA",
     parent: null,
+    milestones: [],
     definitionSite: {
       source,
       start: { offset: 10, line: 2, column: 10 },
@@ -143,6 +168,7 @@ Deno.test("raise an error for missing parent", () => {
     id: "PA",
     name: "PA",
     parent: null,
+    milestones: [],
     definitionSite: {
       source,
       start: { offset: 10, line: 2, column: 10 },
