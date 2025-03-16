@@ -62,10 +62,22 @@ export class Module {
     return this.getEntities().has(name);
   }
 
+  public hasMilestone(milestone: Pick<Milestone, "starts" | "ends" | "language">): boolean {
+    const existing = this.milestones.find(m =>
+      m.starts === milestone.starts &&
+      m.ends === milestone.ends &&
+      m.language === milestone.language
+    );
+    return existing !== undefined
+  }
+
   private import(entity: Member): void {
     switch (entity.kind) {
       case "language":
         this.languages.set(entity.id, entity);
+        entity.milestones.forEach(m => {
+          if (!this.hasMilestone(m)) this.milestones.push(m);
+        })
         break;
       case "trait":
         this.traits.set(entity.name, entity);
