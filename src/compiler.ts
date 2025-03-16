@@ -205,12 +205,15 @@ export function stringifySpan({ source, start }: ast.Span): string {
 function tryAddMilestone(module: Module, ctx: Context): void {
   if (ctx.hasTag()) {
     const tag = ctx.getTag();
-    module.milestones.push({
+    const milestone = {
       kind: "milestone",
       starts: tag.start,
       ends: tag.end,
       language: tag.language
-    })
+    } as const;
+    if (module.hasMilestone(milestone)) return;
+    module.milestones.push(milestone)
+    tag.language.milestones.push(milestone)
   }
 }
 
@@ -299,12 +302,13 @@ export function compileLanguage(
   }
 
   const language = {
-    kind: "language",
+    kind: "language" as const,
     id,
     name: stmt.name?.[0] ?? id,
     parent,
+    milestones: [],
     definitionSite: idSpan,
-  } as const;
+  };
 
   module.languages.set(id, language);
 
