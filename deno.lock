@@ -51,6 +51,14 @@
   "workspace": {
     "dependencies": [
       "jsr:@conlangtools/chronlang-parser@0.1"
-    ]
+    ],
+    "packageJson": {
+      "dependencies": [
+        "npm:@conlangtools/chronlang-parser@0.1",
+        "npm:@types/node@^22.10.2",
+        "npm:vite-plugin-dts@^4.4.0",
+        "npm:vite@^6.0.5"
+      ]
+    }
   }
 }
