@@ -8,6 +8,7 @@ export type Language = {
   name: string;
   id: string;
   parent: Language | null;
+  milestones: Milestone[];
   definitionSite: ast.Span;
 };
 
