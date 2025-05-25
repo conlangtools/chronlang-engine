@@ -22,7 +22,7 @@ Deno.test("compile a language", () => {
       start: { offset: 10, line: 2, column: 10 },
       end: { offset: 12, line: 2, column: 12 },
     },
-    milestones: []
+    milestones: [],
   });
 });
 
@@ -58,8 +58,7 @@ Deno.test("add a milestone to the language entity", () => {
   `;
 
   const module = compileModule(code, source, resolver);
-  const milestone = module.languages.get("PA")?.milestones[0]
-
+  const milestone = module.languages.get("PA")?.milestones[0];
 
   assertEquals(module.errors.length, 0);
   assertEquals(module.languages.size, 1);
@@ -67,7 +66,7 @@ Deno.test("add a milestone to the language entity", () => {
   assertEquals(milestone!.starts, 100);
   assertEquals(milestone!.ends, Infinity);
   assertEquals(milestone!.language.id, "PA");
-})
+});
 
 Deno.test("compile a language family", () => {
   const source = "source-name";

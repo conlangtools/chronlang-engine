@@ -7,7 +7,7 @@ import type { SnapshotContext } from "./module.ts";
 /**
  * A class representing a member of a language's dictionary,
  * and its pronunciation at a given {@link Tag}
- * 
+ *
  * Can be rendered as a phonemic transcription, or mutated
  * by sound changes.
  */
