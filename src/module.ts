@@ -30,7 +30,7 @@ type Member = Language | Trait | Class | Series | Word;
 
 /**
  * A class representing a compiled Chronlang module.
- * 
+ *
  * Stores information about phonemes, words, languages,
  * sound changes, etc. in a given module. Can be used
  * to generate snapshots of a language family.
@@ -62,22 +62,24 @@ export class Module {
     return this.getEntities().has(name);
   }
 
-  public hasMilestone(milestone: Pick<Milestone, "starts" | "ends" | "language">): boolean {
-    const existing = this.milestones.find(m =>
+  public hasMilestone(
+    milestone: Pick<Milestone, "starts" | "ends" | "language">,
+  ): boolean {
+    const existing = this.milestones.find((m) =>
       m.starts === milestone.starts &&
       m.ends === milestone.ends &&
       m.language === milestone.language
     );
-    return existing !== undefined
+    return existing !== undefined;
   }
 
   private import(entity: Member): void {
     switch (entity.kind) {
       case "language":
         this.languages.set(entity.id, entity);
-        entity.milestones.forEach(m => {
+        entity.milestones.forEach((m) => {
           if (!this.hasMilestone(m)) this.milestones.push(m);
-        })
+        });
         break;
       case "trait":
         this.traits.set(entity.name, entity);
@@ -140,7 +142,7 @@ export class Module {
 
   public snapshot(language: Language, time: number): Snapshot {
     const soundChanges = [...this.soundChanges.values()]
-      .filter(sc => sc.tag.start <= time)
+      .filter((sc) => sc.tag.start <= time)
       .toSorted(sortByTag);
 
     const ctx: SnapshotContext = {
