@@ -161,7 +161,7 @@ export class SoundChange {
   }
 
   private tagsOverlap(a: Tag, b: Tag) {
-    return a.start < b.end && b.start < a.end
+    return a.start < b.end && b.start <= a.end
   }
 
   private resolveTarget(
