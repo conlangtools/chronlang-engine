@@ -15,6 +15,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v2
         with:
-          deno-version: v2.1
+          deno-version: v2.2
       - run: deno install
       - run: deno task test
