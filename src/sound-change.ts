@@ -156,7 +156,12 @@ export class SoundChange {
   }
 
   public appliesTo(word: Word): boolean {
-    return this.findMatchesIn(word.phonemes).length > 0;
+    return this.tagsOverlap(this.tag, word.tag)
+      && this.findMatchesIn(word.phonemes).length > 0;
+  }
+
+  private tagsOverlap(a: Tag, b: Tag) {
+    return a.start < b.end && b.start < a.end
   }
 
   private resolveTarget(

@@ -139,12 +139,11 @@ export class Module {
   }
 
   public snapshot(language: Language, time: number): Snapshot {
-    const soundChanges = filterByTag(
-      [...this.soundChanges.values()],
-      language,
-      time,
-    )
+    const soundChanges = [...this.soundChanges.values()]
+      .filter(sc => sc.tag.start <= time)
       .toSorted(sortByTag);
+
+    console.log(soundChanges.length)
 
     const ctx: SnapshotContext = {
       language,
