@@ -143,8 +143,6 @@ export class Module {
       .filter(sc => sc.tag.start <= time)
       .toSorted(sortByTag);
 
-    console.log(soundChanges.length)
-
     const ctx: SnapshotContext = {
       language,
       time,

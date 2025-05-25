@@ -51,12 +51,21 @@ class Context {
   }
 
   public getTag(): Tag {
-    if (this.tagStart === null)
-      throw new Error("`getTag()` called before start time specified. Use `hasTag()` to validate first.");
-    if (this.tagEnd === null)
-      throw new Error("`getTag()` called before end time specified. Use `hasTag()` to validate first.");
-    if (this.tagLanguage === null)
-      throw new Error("`getTag()` called before language specified. Use `hasTag()` to validate first.");
+    if (this.tagStart === null) {
+      throw new Error(
+        "`getTag()` called before start time specified. Use `hasTag()` to validate first.",
+      );
+    }
+    if (this.tagEnd === null) {
+      throw new Error(
+        "`getTag()` called before end time specified. Use `hasTag()` to validate first.",
+      );
+    }
+    if (this.tagLanguage === null) {
+      throw new Error(
+        "`getTag()` called before language specified. Use `hasTag()` to validate first.",
+      );
+    }
 
     return {
       start: this.tagStart,
@@ -75,7 +84,6 @@ type ResolutionResult =
   | { ok: true; module: Module }
   | { ok: false; error: string };
 
-
 /**
  * This interface must be implemented by the `resolver` argument
  * to {@link compileModule}, to ensure modules can be resolved
@@ -83,7 +91,11 @@ type ResolutionResult =
  */
 export interface ModuleResolver {
   resolveScoped(scope: string, path: string): ResolutionResult;
-  resolveLocal(path: string, absolute: boolean, currentPath: string): ResolutionResult;
+  resolveLocal(
+    path: string,
+    absolute: boolean,
+    currentPath: string,
+  ): ResolutionResult;
 }
 
 export class MockResolver implements ModuleResolver {
@@ -209,11 +221,11 @@ function tryAddMilestone(module: Module, ctx: Context): void {
       kind: "milestone",
       starts: tag.start,
       ends: tag.end,
-      language: tag.language
+      language: tag.language,
     } as const;
     if (module.hasMilestone(milestone)) return;
-    module.milestones.push(milestone)
-    tag.language.milestones.push(milestone)
+    module.milestones.push(milestone);
+    tag.language.milestones.push(milestone);
   }
 }
 
@@ -228,7 +240,11 @@ export function compileImport(
 
   const res = stmt.scoped
     ? moduleResolver.resolveScoped(stmt.scope[0], stmt.path[0])
-    : moduleResolver.resolveLocal(stmt.path[0], stmt.absolute, stmt.names[0][1].source);
+    : moduleResolver.resolveLocal(
+      stmt.path[0],
+      stmt.absolute,
+      stmt.names[0][1].source,
+    );
 
   if (!res.ok) {
     module.errors.push({
@@ -325,15 +341,23 @@ export function compileMilestone(
   stmt: ast.Milestone,
 ): boolean {
   if (stmt.time !== null) {
-    if (stmt.time.kind === "instant") {
-      ctx.setTimeRange(stmt.time.time, Infinity);
-    } else if (stmt.time.start < stmt.time.end) {
-      ctx.setTimeRange(stmt.time.start, stmt.time.end);
-    } else {
-      module.errors.push({
-        message: "milestone timespan start must preceed the end",
-        span: stmt.time.span,
-      });
+    switch (stmt.time.kind) {
+      case "instant":
+        ctx.setTimeRange(stmt.time.time, stmt.time.time);
+        break;
+      case "open-range":
+        ctx.setTimeRange(stmt.time.start, Infinity);
+        break;
+      case "closed-range":
+        if (stmt.time.start < stmt.time.end) {
+          ctx.setTimeRange(stmt.time.start, stmt.time.end);
+        } else {
+          module.errors.push({
+            message: "milestone timespan start must preceed the end",
+            span: stmt.time.span,
+          });
+        }
+        break;
     }
   }
 
