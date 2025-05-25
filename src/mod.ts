@@ -21,6 +21,6 @@
 
 export { compileModule, type ModuleResolver } from "./compiler.ts";
 export { Module, type Snapshot } from "./module.ts";
-export type { Language, Tag } from "./diachronics.ts";
+export type { Language, Tag, Milestone } from "./diachronics.ts";
 export type { Word } from "./word.ts";
 export type { SoundChange } from "./sound-change.ts";
