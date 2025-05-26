@@ -1,7 +1,7 @@
 {
   "version": "4",
   "specifiers": {
-    "jsr:@conlangtools/chronlang-parser@0.1": "0.1.33",
+    "jsr:@conlangtools/chronlang-parser@0.1.33": "0.1.33",
     "npm:peggy@4.2.0": "4.2.0"
   },
   "jsr": {
@@ -39,7 +39,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@conlangtools/chronlang-parser@0.1"
+      "jsr:@conlangtools/chronlang-parser@0.1.33"
     ]
   }
 }
