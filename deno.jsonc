@@ -3,7 +3,7 @@
   "version": "0.1.26",
   "exports": "./src/mod.ts",
   "imports": {
-    "@conlangtools/chronlang-parser": "jsr:@conlangtools/chronlang-parser@0.1.x"
+    "@conlangtools/chronlang-parser": "jsr:@conlangtools/chronlang-parser@0.1.33"
   },
   "tasks": {
     "test": "deno test -R",
