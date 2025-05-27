@@ -1,4 +1,5 @@
-import { type ast, parse } from "@conlangtools/chronlang-parser";
+import { parse } from "./parser.ts";
+import type * as ast from "./ast/mod.ts";
 
 import {
   type Category,

@@ -1,0 +1,25 @@
+import * from @core/ipa
+import {
+  a, e, i, o, u
+} from ./local/vowels
+      
+series F = { i, e, ε, æ }
+
+class X encodes (Place Manner) {
+  ℂ = velar trill,
+  ℤ = labiodental lateralFricative,
+}
+
+lang OEng         : Old English
+lang AmEng < OEng : American English
+lang RP    < OEng : Received Pronunciation
+
+@ 1000, OEng
+@ 1940, AmEng
+
+- water /ˈwæ.ter/ {
+  noun. liquid that forms the seas, lakes, rivers, and rain
+  verb. pour or sprinkle water over a plant or area
+}
+
+$ [C+alveolar+stop] > [+flap] / V_V : Alveolar stops lenite to flaps intervocallically

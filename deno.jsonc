@@ -3,10 +3,11 @@
   "version": "0.1.28",
   "exports": "./src/mod.ts",
   "imports": {
-    "@conlangtools/chronlang-parser": "jsr:@conlangtools/chronlang-parser@0.1.33"
+    "peggy": "npm:peggy@4.2.0"
   },
   "tasks": {
-    "test": "deno test -R",
-    "bundle": "npx vite build"
+    "test": "deno task compile-grammar && deno test -R",
+    "bundle": "npx vite build",
+    "compile-grammar": "deno run --allow-read --allow-write compile-grammar.ts"
   }
 }

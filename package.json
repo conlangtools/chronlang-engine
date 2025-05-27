@@ -19,7 +19,7 @@
     }
   },
   "dependencies": {
-    "@conlangtools/chronlang-parser": "0.1.33"
+    "peggy": "4.2.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

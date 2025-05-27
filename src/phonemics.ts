@@ -1,15 +1,15 @@
-import type { ast } from "@conlangtools/chronlang-parser";
+import type { Span } from "./ast/mod.ts";
 
 export type Trait = {
   kind: "trait";
   name: string;
   default: Feature;
   features: Feature[];
-  definitionSite: ast.Span;
+  definitionSite: Span;
 };
 
 export type Feature = {
-  labels: readonly (readonly [string, ast.Span])[];
+  labels: readonly (readonly [string, Span])[];
   trait: Trait;
 };
 
@@ -19,7 +19,7 @@ export type Class = {
   encodes: Trait[];
   annotates: Trait[];
   phonemes: Phoneme[];
-  definitionSite: ast.Span;
+  definitionSite: Span;
 };
 
 export type Phoneme = {
@@ -28,11 +28,11 @@ export type Phoneme = {
   features: Map<Trait, Feature>;
   class: Class;
   index: number;
-  definitionSite: ast.Span;
+  definitionSite: Span;
 };
 
 export type Series =
-  & { kind: "series"; name: string; definitionSite: ast.Span }
+  & { kind: "series"; name: string; definitionSite: Span }
   & (
     | { seriesKind: "list"; phonemes: Phoneme[] }
     | { seriesKind: "category" } & Category

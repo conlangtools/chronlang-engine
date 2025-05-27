@@ -1,4 +1,4 @@
-import type { ast } from "@conlangtools/chronlang-parser";
+import type { Span } from "./ast/mod.ts";
 import type { Tag } from "./diachronics.ts";
 import type { Category, Modifier, Phoneme } from "./phonemics.ts";
 import type { Word } from "./word.ts";
@@ -74,7 +74,7 @@ export class SoundChange {
     public readonly environment: Environment | null,
     public readonly description: string | null,
     public readonly tag: Tag,
-    public readonly definitionSite: ast.Span,
+    public readonly definitionSite: Span,
   ) {}
 
   private findSourceIn(phonemes: Phoneme[]): Range[] {

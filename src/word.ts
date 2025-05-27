@@ -1,4 +1,4 @@
-import type { ast } from "@conlangtools/chronlang-parser";
+import type { Span } from "./ast/mod.ts";
 import type { Phoneme } from "./phonemics.ts";
 import type { SoundChange } from "./sound-change.ts";
 import type { Tag } from "./diachronics.ts";
@@ -18,7 +18,7 @@ export class Word {
     public readonly phonemes: Phoneme[],
     public readonly definitions: readonly Definition[],
     public readonly tag: Tag,
-    public readonly definitionSite: ast.Span,
+    public readonly definitionSite: Span,
     public readonly etymology: readonly (readonly [Word, SoundChange])[] = [],
   ) {}
 

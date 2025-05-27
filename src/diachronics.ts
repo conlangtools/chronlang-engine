@@ -1,4 +1,4 @@
-import type { ast } from "@conlangtools/chronlang-parser";
+import type { Span } from "./ast/mod.ts";
 
 /**
  * Represents a member of a language family
@@ -9,7 +9,7 @@ export type Language = {
   id: string;
   parent: Language | null;
   milestones: Milestone[];
-  definitionSite: ast.Span;
+  definitionSite: Span;
 };
 
 export type Milestone = {

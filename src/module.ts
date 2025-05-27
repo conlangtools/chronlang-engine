@@ -1,4 +1,4 @@
-import type { ast } from "@conlangtools/chronlang-parser";
+import type { Span } from "./ast/mod.ts";
 import {
   filterByTag,
   type Language,
@@ -22,8 +22,8 @@ export type Snapshot = SnapshotContext & {
 export type SnapshotContext = {
   language: Language;
   time: number;
-  errors: { message: string; span: ast.Span }[];
-  warnings: { message: string; span: ast.Span }[];
+  errors: { message: string; span: Span }[];
+  warnings: { message: string; span: Span }[];
 };
 
 type Member = Language | Trait | Class | Series | Word;
@@ -44,8 +44,8 @@ export class Module {
     public readonly series: Map<string, Series> = new Map(),
     public readonly words: Map<string, Word> = new Map(),
     public readonly soundChanges: SoundChange[] = [],
-    public readonly warnings: { message: string; span: ast.Span }[] = [],
-    public readonly errors: { message: string; span: ast.Span }[] = [],
+    public readonly warnings: { message: string; span: Span }[] = [],
+    public readonly errors: { message: string; span: Span }[] = [],
   ) {}
 
   public getEntities(): Map<string, Member> {
