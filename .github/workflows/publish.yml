@@ -70,6 +70,8 @@ jobs:
           deno-version: v2.2
       - name: Install Dependencies
         run: deno install --frozen
+      - name: Compile grammar
+        run: deno task compile-grammar
       - name: Publish to JSR
         run: deno publish --allow-dirty
 
