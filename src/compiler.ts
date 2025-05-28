@@ -676,6 +676,7 @@ export function compileWord(
       message: `Words cannot be defined before a milestone.`,
       span: glossSpan,
     });
+    return true;
   }
 
   const conflict = module.words.get(gloss);
