@@ -724,6 +724,7 @@ export function compileSoundChange(
       message: `Sound changes cannot be defined before a milestone.`,
       span: stmt.source.span,
     });
+    return true;
   }
 
   const modulePhonemes = module.listPhonemes();
