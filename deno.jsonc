@@ -5,6 +5,11 @@
   "imports": {
     "peggy": "npm:peggy@4.2.0"
   },
+  "publish": {
+    "exclude": [
+      "!src/grammar.ts"
+    ]
+  },
   "tasks": {
     "test": "deno task compile-grammar && deno test -R",
     "bundle": "deno task compile-grammar && npx vite build",
