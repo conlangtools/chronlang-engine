@@ -1,6 +1,6 @@
 {
   "name": "@conlangtools/chronlang-engine",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "exports": "./src/mod.ts",
   "imports": {
     "peggy": "npm:peggy@4.2.0"
