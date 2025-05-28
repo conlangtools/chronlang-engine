@@ -71,7 +71,7 @@ jobs:
       - name: Install Dependencies
         run: deno install --frozen
       - name: Publish to JSR
-        run: deno publish
+        run: deno publish --allow-dirty
 
   publish-node:
     needs:

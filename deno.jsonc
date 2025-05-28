@@ -6,8 +6,9 @@
     "peggy": "npm:peggy@4.2.0"
   },
   "tasks": {
-    "test": "deno task compile-grammar && deno test -R",
-    "bundle": "npx vite build",
+    "build": "deno task compile-grammar",
+    "test": "deno task build && deno test -R",
+    "bundle": "deno task build && npx vite build",
     "compile-grammar": "deno run --allow-read --allow-write compile-grammar.ts"
   }
 }
