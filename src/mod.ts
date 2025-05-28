@@ -24,5 +24,5 @@ export { Module, type Snapshot } from "./module.ts";
 export type { Language, Milestone, Tag } from "./diachronics.ts";
 export type { Word } from "./word.ts";
 export type { SoundChange } from "./sound-change.ts";
-export * as ast from "./ast/mod.ts";
+export type * as ast from "./ast/mod.ts";
 export * as parser from "./parser.ts";

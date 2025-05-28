@@ -1,4 +1,4 @@
-import { Span, Spanned } from "./span.ts";
+import type { Span, Spanned } from "./span.ts";
 
 export type SoundChange = {
   source: Source;

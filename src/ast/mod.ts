@@ -1,3 +1,3 @@
-export * from "./sound-change.ts";
-export * from "./span.ts";
-export * from "./statements.ts";
+export type * from "./sound-change.ts";
+export type * from "./span.ts";
+export type * from "./statements.ts";

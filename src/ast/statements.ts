@@ -1,5 +1,5 @@
-import { Category, SoundChange } from "./sound-change.ts";
-import { Span, Spanned } from "./span.ts";
+import type { Category, SoundChange } from "./sound-change.ts";
+import type { Span, Spanned } from "./span.ts";
 
 export type Stmt =
   | { kind: "import" } & Import
