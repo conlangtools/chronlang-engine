@@ -17,6 +17,8 @@ class C encodes (Voice Place Manner) {
   ɢ  = voiced    uvular       plosive,
   p̛  = voiceless bilabial     ejective,
   t̛  = voiceless alveloar     ejective,
+  ʈ̛  = voiceless retroflex    ejective,
+  c̛  = voiceless palatal      ejective,
   k̛  = voiceless velar        ejective,
   q̛  = voiceless uvular       ejective,
   m  = voiced    bilabial     nasal,
