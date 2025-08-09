@@ -1,5 +1,5 @@
-trait Place { bilabial, labiodental, dental, alveolar, postalveolar, retroflex, palatal, velar, uvular, pharyngeal, glottal }
-trait Manner { plosive|stop, nasal, trill, tap|flap, affricate, fricative, lateralfricative, approximant, lateralapproximant }
+trait Place { bilabial, labiodental, dental, alveolar, postalveolar, retroflex, palatal, velar, labiovelar, uvular, pharyngeal, glottal }
+trait Manner { plosive|stop, nasal, trill, tap|flap, affricate, fricative, lateralfricative, approximant, lateralapproximant, ejective }
 trait Voice { unvoiced|voiceless, voiced }
 
 class C encodes (Voice Place Manner) {
@@ -14,6 +14,11 @@ class C encodes (Voice Place Manner) {
   k  = voiceless velar        plosive,
   g  = voiced    velar        plosive,
   q  = voiceless uvular       plosive,
+  ɢ  = voiced    uvular       plosive,
+  p̛  = voiceless bilabial     ejective,
+  t̛  = voiceless alveloar     ejective,
+  k̛  = voiceless velar        ejective,
+  q̛  = voiceless uvular       ejective,
   m  = voiced    bilabial     nasal,
   ɱ  = voiced    labiodental  nasal,
   n  = voiced    alveolar     nasal,
@@ -62,6 +67,8 @@ class C encodes (Voice Place Manner) {
   ɻ  = voiced    retroflex    approximant,
   j  = voiced    palatal      approximant,
   ɰ  = voiced    velar        approximant,
+  w  = voiced    labiovelar   approximant,
+  ʍ  = voiceless labiovelar   approximant,
   l  = voiced    alveolar     lateralapproximant,
   ɭ  = voiced    retroflex    lateralapproximant,
   ʎ  = voiced    palatal      lateralapproximant,
