@@ -3,7 +3,7 @@
 ## Preface
 Thanks for your interest in the project and in contributing to the Chronlang Engine codebase.
 
-At present, the requirements of the project are fluid, which is not conducive to open collaboration
+At present, the requirements of the project are fluid, which is not conducive to open collaboration;
 However, I _am_ open to suggestions if you have specific ideas of how you'd like to contribute.
 
 ## Before Contributing
